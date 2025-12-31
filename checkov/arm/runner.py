@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 import os
+import sys
 from collections.abc import Iterable
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, cast
@@ -102,7 +103,11 @@ class Runner(BaseRunner[_ArmDefinitions, _ArmContext, ArmGraphManager]):
 
             if self.graph_registry and self.graph_manager:
                 logging.info("Creating ARM graph")
-                local_graph = self.graph_manager.build_graph_from_definitions(definitions=self.definitions)
+                try:
+                    local_graph = self.graph_manager.build_graph_from_definitions(definitions=self.definitions)
+                except Exception as e:
+                    print(str(e), "Error in building graph manager from definition")
+                    sys.exit(1)
                 logging.info("Successfully created ARM graph")
 
                 self.graph_manager.save_graph(local_graph)
