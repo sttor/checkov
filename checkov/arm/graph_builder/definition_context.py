@@ -16,6 +16,8 @@ def build_definitions_context(definitions: dict[str, dict[str, Any]], definition
     for file_path_object, file_path_definitions in definitions.items():
         file_path = str(file_path_object)
         definitions_context[file_path] = {}
+        if type(file_path_definitions) == list:
+          continue
         for definition_attribute, resources in file_path_definitions.items():
             if definition_attribute not in DEFINITIONS_KEYS:
                 continue
